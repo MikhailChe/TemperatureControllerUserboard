@@ -28,5 +28,6 @@ SUBDIRS := \
 StdPeriph_Driver/src \
 Utilities \
 src \
+src/FSM \
 startup \
 

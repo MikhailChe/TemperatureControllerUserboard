@@ -15,7 +15,7 @@ typedef enum {
 
 class ByteDisplay {
 public:
-	static ByteDisplay& Instance();
+	static ByteDisplay& instance();
 	void show(uint8_t val);
 	void showDirection(Direction_TypeDef);
 

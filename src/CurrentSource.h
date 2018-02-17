@@ -13,11 +13,13 @@ class CurrentSource {
 public:
 	CurrentSource();
 	CurrentSource(float);
-	virtual ~CurrentSource();
 	void setPower(float);
-//private:
+	float getPower(void);
+private:
 	void setDAC(uint16_t val);
 	uint16_t getDAC();
+
+	float powerVal;
 };
 
 #endif /* CURRENTSOURCE_H_ */

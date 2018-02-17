@@ -7,14 +7,16 @@
 
 #include "CurrentSource.h"
 
-#include <stm32f3_discovery.h>
+#include <stm32f30x.h>
 #include <stm32f30x_dac.h>
+#include <stm32f30x_gpio.h>
+#include <stm32f30x_rcc.h>
+#include <sys/_stdint.h>
 
 DAC_InitTypeDef dac_init;
 
 CurrentSource::CurrentSource() :
 		CurrentSource(0) {
-
 }
 
 CurrentSource::CurrentSource(float initial) {
@@ -40,19 +42,18 @@ CurrentSource::CurrentSource(float initial) {
 	DAC_Cmd(DAC_Channel_1, ENABLE);
 }
 
-CurrentSource::~CurrentSource() {
-	// TODO Auto-generated destructor stub
-}
-
 void CurrentSource::setPower(float val) {
 	if (val < 0)
 		val = 0;
 	if (val > 1)
 		val = 1;
+	powerVal = val;
 	uint16_t scaled = (uint16_t) ((float) (val * (float) (1 << 12)));
 	setDAC(scaled);
 }
-
+float CurrentSource::getPower(void) {
+	return powerVal;
+}
 void CurrentSource::setDAC(uint16_t val) {
 	if (val > 4095)
 		val = 4095;
@@ -62,3 +63,4 @@ void CurrentSource::setDAC(uint16_t val) {
 uint16_t CurrentSource::getDAC() {
 	return DAC_GetDataOutputValue(DAC_Channel_1);
 }
+

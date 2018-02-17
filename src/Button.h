@@ -8,13 +8,22 @@
 #ifndef BUTTON_H_
 #define BUTTON_H_
 
-class Button {
-public:
-	Button(int);
-	virtual ~Button();
-	bool isPressed();
-private:
-	int but;
-};
+#include <stm32f30x.h>
+#include <stm32f30x_gpio.h>
+#include <sys/_stdint.h>
 
+#include "TimeUtils.h"
+
+class Button final {
+public:
+	Button(GPIO_TypeDef* gpio, uint8_t pinNum);
+	Button(GPIO_TypeDef* gpio, uint8_t pinNum, GPIOPuPd_TypeDef pull);
+	bool get();
+private:
+	GPIO_TypeDef* port;
+	uint8_t pin;
+	bool inverse;
+};
+bool isPressed(Button& but);
+bool isClicked(Button& but);
 #endif /* BUTTON_H_ */

@@ -9,7 +9,7 @@
 
 #include <stm32f3_discovery.h>
 
-ByteDisplay& ByteDisplay::Instance() {
+ByteDisplay& ByteDisplay::instance() {
 	static ByteDisplay display;
 	return display;
 }
