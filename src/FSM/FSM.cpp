@@ -27,5 +27,4 @@ void FSM::run(void) {
 
 FsmNode* FSM::getCurrentNode(void) {
 	return current;
-//	return NULL;
 }
