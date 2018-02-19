@@ -6,13 +6,18 @@
  */
 
 #pragma once
-#include <sys/_stdint.h>
 
 class Temperature {
-public:
+private:
 	Temperature();
-	virtual ~Temperature();
+public:
+	static Temperature& instance() {
+		static Temperature t;
+		return t;
+	}
+
+	Temperature(Temperature const&) = delete;
+	void operator =(Temperature const&) = delete;
 
 	float getDegrees();
-	int16_t getDegreesInt();
 };

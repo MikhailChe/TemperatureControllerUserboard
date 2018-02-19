@@ -21,12 +21,20 @@
 
 int main(void) {
 
-	Temperature temperature;
+	Temperature& temperature = Temperature::instance();
 	CurrentSource current;
-	Button bUp(GPIOA, GPIO_Pin_1, GPIO_PuPd_UP);
-	Button bDown(GPIOA, GPIO_Pin_2, GPIO_PuPd_UP);
-	Button bOK(GPIOA, GPIO_Pin_3, GPIO_PuPd_UP);
-	Button bCancel(GPIOA, GPIO_Pin_4, GPIO_PuPd_UP);
+	Button bUp(GPIOA, GPIO_Pin_8, GPIO_PuPd_UP);
+	Button bDown(GPIOA, GPIO_Pin_1, GPIO_PuPd_DOWN);
+	Button bOK(GPIOA, GPIO_Pin_8, GPIO_PuPd_DOWN);
+	Button bCancel(GPIOA, GPIO_Pin_9, GPIO_PuPd_UP);
+
+	GPIO_InitTypeDef vdiv_gpio_init;
+	GPIO_StructInit(&vdiv_gpio_init);
+	vdiv_gpio_init.GPIO_Mode = GPIO_Mode_OUT;
+	vdiv_gpio_init.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_4;
+	GPIO_Init(GPIOA, &vdiv_gpio_init);
+	GPIO_WriteBit(GPIOA, GPIO_Pin_0, Bit_SET);
+	GPIO_WriteBit(GPIOA, GPIO_Pin_4, Bit_RESET);
 
 	const float DELTA = 0.001F;
 
@@ -41,6 +49,12 @@ int main(void) {
 	uint8_t mode = 0;
 
 	ByteDisplay& display = ByteDisplay::instance();
+	float degrees = 0;
+	for (;;) {
+		degrees = temperature.getDegrees();
+		display.show((uint8_t) (degrees * 255.0F));
+	}
+
 	for (;;) {
 		if (mode == MODE_STARTSTOP) {
 			if (isClicked(bOK)) {
@@ -56,7 +70,7 @@ int main(void) {
 						current.setPower(current.getPower() + DELTA);
 					else
 						current.setPower(current.getPower() - DELTA);
-					display.show(current.getPower() * 255.0f);
+					display.show((uint8_t) (current.getPower() * 255.0f));
 				}
 			} else if (isClicked(bUp)) {
 				mode = MODE_MAXTEMP;

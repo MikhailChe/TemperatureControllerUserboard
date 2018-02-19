@@ -7,18 +7,18 @@
 
 #include "Button.h"
 
-Button::Button(GPIO_TypeDef* gpio, uint8_t pinNum) :
+Button::Button(GPIO_TypeDef* gpio, uint16_t pinNum) :
 		Button(gpio, pinNum, GPIO_PuPd_UP) {
 
 }
-Button::Button(GPIO_TypeDef* gpio, uint8_t pinNum, GPIOPuPd_TypeDef pull) {
+Button::Button(GPIO_TypeDef* gpio, uint16_t pinNum, GPIOPuPd_TypeDef pull) {
 	port = gpio;
 	pin = pinNum;
 	GPIO_InitTypeDef but_init;
 	GPIO_StructInit(&but_init);
 
 	but_init.GPIO_Mode = GPIO_Mode_IN;
-	but_init.GPIO_Pin = (1UL << pin);
+	but_init.GPIO_Pin = pin;
 	but_init.GPIO_PuPd = pull;
 	but_init.GPIO_Speed = GPIO_Speed_2MHz;
 

@@ -45,7 +45,16 @@ void ByteDisplay::showDirection(Direction_TypeDef dir) {
 
 	}
 }
+void show123(uint8_t val);
 void ByteDisplay::show(uint8_t val) {
+	val /= 32;
+	uint8_t output = 0;
+	for (int i = 0; i < val; i++) {
+		output |= (uint8_t) (1 << i);
+	}
+	show123(output);
+}
+void show123(uint8_t val) {
 	if (val & 0x01) {
 		STM_EVAL_LEDOn(LED3);
 	} else {
