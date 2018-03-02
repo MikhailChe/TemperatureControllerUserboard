@@ -16,8 +16,9 @@
 
 class Button final {
 public:
-	Button(GPIO_TypeDef* gpio, uint8_t pinNum);
-	Button(GPIO_TypeDef* gpio, uint8_t pinNum, GPIOPuPd_TypeDef pull);
+	Button(GPIO_TypeDef* gpio, uint32_t clockRegister, uint8_t pinNum);
+	Button(GPIO_TypeDef* gpio, uint32_t clockRegister, uint8_t pinNum,
+			GPIOPuPd_TypeDef pull);
 	bool get();
 private:
 	GPIO_TypeDef* port;

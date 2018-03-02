@@ -7,11 +7,16 @@
 
 #include "Button.h"
 
-Button::Button(GPIO_TypeDef* gpio, uint8_t pinNum) :
-		Button(gpio, pinNum, GPIO_PuPd_UP) {
+#include <stm32f30x_rcc.h>
+
+Button::Button(GPIO_TypeDef* gpio, uint32_t clockRegister, uint8_t pinNum) :
+		Button(gpio, clockRegister, pinNum, GPIO_PuPd_UP) {
 
 }
-Button::Button(GPIO_TypeDef* gpio, uint8_t pinNum, GPIOPuPd_TypeDef pull) {
+Button::Button(GPIO_TypeDef* gpio, uint32_t clockRegister, uint8_t pinNum,
+		GPIOPuPd_TypeDef pull) {
+	RCC_AHBPeriphClockCmd(clockRegister, ENABLE);
+
 	port = gpio;
 	pin = pinNum;
 	GPIO_InitTypeDef but_init;
