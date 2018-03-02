@@ -1,6 +1,5 @@
-<<<<<<< HEAD
 /Release/
-=======
+
 # Prerequisites
 *.d
 
@@ -33,4 +32,3 @@
 *.exe
 *.out
 *.app
->>>>>>> branch 'master' of git@github.com:MikhailChe/TemperatureControllerUserboard.git
