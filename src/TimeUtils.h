@@ -11,6 +11,7 @@
 #include <sys/_stdint.h>
 
 void delay_ticks(uint64_t numTicks);
-void delay_ms(uint64_t num);
+void delay(uint32_t num);
+uint32_t millis();
 
 #endif /* TIMEUTILS_H_ */

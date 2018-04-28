@@ -49,7 +49,7 @@ bool isPressed(Button& but) {
 			val++;
 		else
 			val--;
-		delay_ms(1);
+		delay(1);
 	}
 	if (val > 0)
 		return true;

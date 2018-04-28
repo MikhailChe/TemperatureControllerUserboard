@@ -8,6 +8,17 @@
 #include "TimeUtils.h"
 
 #include <system_stm32f30x.h>
+#include <stm32f30x.h>
+
+volatile uint32_t systickInitSuccess = SysTick_Config(SystemCoreClock / 1000);
+
+volatile uint32_t millisecondsPassed = 0;
+
+extern "C" {
+void SysTick_Handler(void) {
+	millisecondsPassed++;
+}
+}
 
 void delay_ticks(uint64_t numTicks) {
 	asm("nop");
@@ -17,7 +28,13 @@ void delay_ticks(uint64_t numTicks) {
 	asm("nop");
 }
 
-void delay_ms(uint64_t num) {
-	const uint64_t clk = SystemCoreClock;
-	delay_ticks((clk / 1000) * num);
+uint32_t millis() {
+	return millisecondsPassed;
+}
+
+void delay(uint32_t num) {
+	uint32_t startTime = millisecondsPassed;
+	while ((millisecondsPassed - startTime) < num) {
+		asm("nop");
+	}
 }

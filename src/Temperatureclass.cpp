@@ -19,9 +19,6 @@ volatile bool error = 0;
 uint16_t Temperature_class::getDegreesInt() {
 	uint16_t temperature = 0;
 	uint8_t state = 0;
-	while (SPI.dataReady()) {
-		SPI.recieveByteBlocking();
-	}
 	while (true) {
 		uint8_t value = SPI.recieveByteBlocking();
 		switch (state) {

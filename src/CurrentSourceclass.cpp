@@ -5,7 +5,7 @@
  *      Author: Mikhail
  */
 
-#include "CurrentSource.h"
+#include "CurrentSourceclass.h"
 
 #include <stm32f30x.h>
 #include <stm32f30x_dac.h>
@@ -15,11 +15,11 @@
 
 DAC_InitTypeDef dac_init;
 
-CurrentSource::CurrentSource() :
-		CurrentSource(0) {
+CurrentSource_class::CurrentSource_class() :
+		CurrentSource_class(0) {
 }
 
-CurrentSource::CurrentSource(float initial) {
+CurrentSource_class::CurrentSource_class(double initial) {
 	setPower(initial);
 
 	//    (+) DAC APB clock must be enabled to get write access to DAC
@@ -42,25 +42,27 @@ CurrentSource::CurrentSource(float initial) {
 	DAC_Cmd(DAC_Channel_1, ENABLE);
 }
 
-void CurrentSource::setPower(float val) {
+void CurrentSource_class::setPower(double val) {
 	if (val < 0)
 		val = 0;
 	if (val > 1)
 		val = 1;
 	powerVal = val;
-	uint16_t scaled = (uint16_t) ((float) (val * (float) (1 << 12)));
+	uint16_t scaled = (uint16_t) ((double) (val * (double) (1 << 12)));
 	setDAC(scaled);
 }
-float CurrentSource::getPower(void) {
+float CurrentSource_class::getPower(void) {
 	return powerVal;
 }
-void CurrentSource::setDAC(uint16_t val) {
+void CurrentSource_class::setDAC(uint16_t val) {
 	if (val > 4095)
 		val = 4095;
 	DAC_SetChannel1Data(DAC_Align_12b_R, val);
 
 }
-uint16_t CurrentSource::getDAC() {
+uint16_t CurrentSource_class::getDAC() {
 	return DAC_GetDataOutputValue(DAC_Channel_1);
 }
+
+CurrentSource_class CurrentSource;
 
